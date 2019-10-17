@@ -1,0 +1,86 @@
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+public class ExcelReader {
+
+	@SuppressWarnings("null")
+	public static void main(String[] args) throws IOException {
+
+		InputStream ExcelFileToRead = new FileInputStream(
+				"D:\\abc.xls");
+		InputStream excelFileToRead = new FileInputStream(filePath);
+					HSSFWorkbook  wb = new HSSFWorkbook (excelFileToRead);
+					HSSFSheet sheet = wb.getSheetAt(0);
+					Iterator rows = sheet.rowIterator();
+					HSSFRow row;
+					HSSFCell cell;
+
+		Iterator rows = sheet.rowIterator();
+		List<String> inputHeaders = new ArrayList<String>();
+		String[] arr = {};
+		Iterator<Row> rowIterator = sheet.iterator();
+		while (rowIterator.hasNext()) {
+						row = (HSSFRow) rows.next();
+			// For each row, iterate through all the columns
+			Iterator<Cell> cellIterator = row.cellIterator();
+
+			System.out.println((row.getRowNum()) == 0);
+			if ((row.getRowNum()) == 0) {
+
+				System.out.println("ROW2313 -> " + row.getFirstCellNum());
+				Iterator cells = row.cellIterator();
+							while (cells.hasNext()) {
+								 cell = (HSSFCell) cells.next();
+					// Check the cell type and format accordingly
+					switch (cell.getCellType()) {
+					case Cell.CELL_TYPE_NUMERIC:
+						inputHeaders.add(String.valueOf(cell.getNumericCellValue()));
+						break;
+					case Cell.CELL_TYPE_STRING:
+						inputHeaders.add(cell.getStringCellValue());
+						break;
+					}
+				}
+
+				arr = inputHeaders.toArray(new String[inputHeaders.size()]);
+				for (String s : arr) {
+					System.out.print(s);
+				}
+				System.out.println();
+			}
+
+			else {
+
+				Iterator cells = row.cellIterator();
+							while (cells.hasNext()) {
+								 cell = (HSSFCell) cells.next();
+					ArrayList<String> inputDataArray = new ArrayList<String>();
+					// Check the cell type and format accordingly
+					switch (cell.getCellType()) {
+					case Cell.CELL_TYPE_NUMERIC:
+						inputDataArray.add(String.valueOf(cell.getNumericCellValue()));
+						break;
+					case Cell.CELL_TYPE_STRING:
+						inputDataArray.add(cell.getStringCellValue());
+						break;
+					}
+				}
+
+			}
+			System.out.println("");
+		}
+		ExcelFileToRead.close();
+	}
+
+}
